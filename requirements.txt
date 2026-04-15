@@ -1,16 +1,38 @@
-streamlit
+# Core Framework
+streamlit>=1.32.0
+
+# Data
 pandas
 numpy
+
+# Visualization
 plotly
+
+# HTTP & APIs
 requests
-pymongo
-earthengine-api
-geemap
-google-generativeai
-Pillow
-torch
-torchvision
-tensorflow>=2.13.0
-twilio>=8.0.0
-paho-mqtt>=1.6.1
 python-dotenv
+
+# Database
+pymongo[srv]
+
+# AI / LLM
+google-generativeai
+
+# Images
+Pillow
+
+# Twilio SMS
+twilio>=8.0.0
+
+# MQTT (IoT sensor bridge)
+paho-mqtt>=1.6.1
+
+# Agmarknet / OGD pricing
+pytz
+
+# NOTE: The following are intentionally EXCLUDED from cloud deployment
+# because they exceed Streamlit Cloud's memory limits:
+#   torch, torchvision  — CNN Pest Classifier (page gracefully handles this)
+#   tensorflow          — ML model training (not needed at runtime)
+#   earthengine-api     — GEE satellite (handled via REST API fallback)
+#   geemap              — GEE visualization (same reason)

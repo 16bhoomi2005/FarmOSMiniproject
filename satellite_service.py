@@ -1,8 +1,19 @@
-import ee
-import folium
+try:
+    import ee
+    EE_AVAILABLE = True
+except ImportError:
+    ee = None
+    EE_AVAILABLE = False
+
+try:
+    import folium
+    FOLIUM_AVAILABLE = True
+except ImportError:
+    folium = None
+    FOLIUM_AVAILABLE = False
+
 import datetime
 import os
-
 import json
 
 # Global flag

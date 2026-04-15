@@ -535,6 +535,25 @@ textarea {
     display: block !important;
     opacity: 1 !important;
 }
+
+/* ═══ FILE UPLOADER — Fix Overlap & Skin ═══ */
+[data-testid="stFileUploadDropzone"] {
+  background: rgba(0,0,0,0.2) !important;
+  border: 2px dashed rgba(232,160,32,0.2) !important;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+}
+[data-testid="stFileUploadDropzone"] button {
+  background: #E8A020 !important;
+  color: #0D2B1A !important;
+  border: none !important;
+  font-weight: 700 !important;
+  padding: 0.5rem 1rem !important;
+}
+/* Prevent text duplication */
+[data-testid="stFileUploadDropzone"] section > label {
+    display: none !important;
+}
 """
 
 def inject_css():

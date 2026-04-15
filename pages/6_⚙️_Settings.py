@@ -32,6 +32,10 @@ if 'weight_unit' not in st.session_state:
     st.session_state.weight_unit = "Tons"
 if 'sowing_date' not in st.session_state:
     st.session_state.sowing_date = date(2024, 7, 15)
+if 'manual_growth_stage' not in st.session_state:
+    st.session_state.manual_growth_stage = "Auto"
+if 'target_yield' not in st.session_state:
+    st.session_state.target_yield = 4.5
 
 # Load env variables for credentials
 env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
@@ -190,12 +194,14 @@ with content_col:
         c1, c2 = st.columns(2)
         with c1:
             stages = ["Auto", "Seedling", "Tillering", "Flowering", "Grain Filling", "Pre-Harvest"]
-            current_stage_idx = stages.index(st.session_state.manual_growth_stage) if st.session_state.manual_growth_stage in stages else 0
+            m_stage = st.session_state.get('manual_growth_stage', "Auto")
+            current_stage_idx = stages.index(m_stage) if m_stage in stages else 0
             st.selectbox(dl.translate("field_status", lang), options=stages, index=current_stage_idx, key='manual_growth_stage')
             st.date_input(dl.translate("sowing_date_label", lang), value=st.session_state.sowing_date, key='sowing_date')
         with c2:
             st.selectbox(dl.translate("season_label", lang), options=["Kharif 2024", "Rabi 2024", "Zaid 2025"], key='season_name')
-            st.slider(dl.translate("yield_projection", lang), min_value=1.0, max_value=15.0, value=float(st.session_state.target_yield), step=0.5, key='target_yield')
+            t_yield = st.session_state.get('target_yield', 4.5)
+            st.slider(dl.translate("yield_projection", lang), min_value=1.0, max_value=15.0, value=float(t_yield), step=0.5, key='target_yield')
             
         st.markdown('</div>', unsafe_allow_html=True)
 

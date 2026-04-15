@@ -95,7 +95,7 @@ MODEL_FILE = 'models/rice_risk_model.pkl'
 # RAW DATA LOADERS
 # ─────────────────────────────────────────────
 
-@st.cache_data(ttl=60) # Faster refresh for real-time data
+@st.cache_data(ttl=5) # ultra-responsive for live presentation
 def load_ground_sensors(field="All Fields"):
     """
     Fetches ground sensor data. 
@@ -103,9 +103,10 @@ def load_ground_sensors(field="All Fields"):
     2nd Priority: Local CSV (Verified Sample Fallback)
     """
     # Try Live MongoDB
-    if MONGO_CLIENT:
+    client = fetch_client()
+    if client:
         try:
-            db = MONGO_CLIENT.farm_intelligence
+            db = client.farm_intelligence
             collection = db.sensor_data
             
             query = {}
@@ -137,7 +138,7 @@ def load_ground_sensors(field="All Fields"):
             st.error(f"Error loading sensor data: {e}")
     return None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=5)
 def load_satellite_features():
     """Load latest satellite analysis from JSON file"""
     if os.path.exists(SAT_FEATURES_FILE):
@@ -204,6 +205,17 @@ def load_active_alerts(field="All Fields"):
         except (json.JSONDecodeError, Exception) as e:
             print(f"DEBUG: Error loading local alerts: {e}")
     return []
+
+def get_sensor_nodes():
+    """Fetches list of active sensor nodes from MongoDB"""
+    client = fetch_client()
+    if not client:
+        return []
+    try:
+        db = client.farm_intelligence
+        return list(db.sensor_nodes.find({}))
+    except:
+        return []
 
 def generate_and_sync_system_alerts(field_intel, field_name="All Fields"):
     """

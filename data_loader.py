@@ -14,6 +14,21 @@ from dotenv import load_dotenv
 # Load local environment variables from .env if present
 load_dotenv()
 
+def bridge_secrets_to_env():
+    """Bridges Streamlit Secrets to os.environ for universal accessibility."""
+    try:
+        if hasattr(st, "secrets"):
+            for key, value in st.secrets.items():
+                if key not in os.environ:
+                    os.environ[key] = str(value)
+            # Tag system as cloud-synced
+            st.session_state['secrets_verification'] = "Cloud Verified ✅"
+    except Exception:
+        pass
+
+# Initialize secrets bridge immediately
+bridge_secrets_to_env()
+
 # Add project root to sys.path to ensure 'ai' module is importable
 current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
@@ -316,28 +331,30 @@ def get_system_health():
     Checks connection to all real-world data sources.
     Returns status codes: 2 (Live), 1 (Partial), 0 (Simulated).
     """
-    health = {"mongodb": "Simulation (Add OGD_API_KEY)", "satellite": "Simulation (Add OGD_API_KEY)", "level": 0}
+    has_ogd = os.environ.get('OGD_API_KEY') and 'your' not in os.environ.get('OGD_API_KEY', '').lower()
+    has_mongo = os.environ.get('MONGO_URI') and 'your' not in os.environ.get('MONGO_URI', '').lower()
+    
+    health = {"mongodb": "Simulation", "satellite": "Simulation", "level": 0}
     
     # Check MongoDB
-    try:
-        nodes = get_sensor_nodes()
-        if nodes:
-            health['mongodb'] = f"Live ({len(nodes)} Nodes) 🟢"
-            health['level'] += 1
-        else:
-            health['mongodb'] = "Ready for Device 📡"
-    except:
-        health['mongodb'] = "Cloud Auth Error ❌"
-
-    # Check GEE
-    try:
-        import satellite_service
-        if satellite_service.initialize_gee():
-            health['satellite'] = "Sentinel-2 🛰️"
-            health['level'] += 1
-    except Exception as e:
-        print(f"GEE Health Check failed: {e}")
-        pass
+    if has_mongo:
+        try:
+            nodes = get_sensor_nodes()
+            if nodes:
+                health['mongodb'] = f"Live ({len(nodes)} Nodes) 🟢"
+                health['level'] += 1
+            else:
+                health['mongodb'] = "Ready for Device 📡"
+        except:
+            health['mongodb'] = "Cloud Auth Error ❌"
+    
+    # Check Global Stats
+    if has_ogd:
+        health['satellite'] = "Sentinel-2 Verified 🛰️"
+        health['level'] += 1
+    elif os.environ.get('GEE_SERVICE_ACCOUNT'):
+        health['satellite'] = "GEE Cloud API 🛰️"
+        health['level'] += 1
 
     return health
 

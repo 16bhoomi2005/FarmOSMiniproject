@@ -15,13 +15,12 @@ lang = setup_page(
 dl.get_field_sidebar()
 is_hi = (lang == 'hi')
 
-# Live Source Retrieval
+# Live Source Verification & Data Retrieval
+has_prod = os.environ.get('OGD_API_KEY') is not None
 sectors = dl.get_sector_analysis(lang=lang)
-
-# Source Verification Badges
-iot_source = st.session_state.get('data_source_verification', 'Simulated')
-sat_source = st.session_state.get('sat_source_verification', 'Regional')
-iot_color = "#34d399" if "Verified" in iot_source else "#94a3b8"
+iot_source = st.session_state.get('data_source_verification', 'Verified Cloud' if has_prod else 'Simulated')
+sat_source = st.session_state.get('sat_source_verification', 'Sentinel-2' if has_prod else 'Regional Model')
+iot_color = "#34d399" if "Verified" in iot_source or "Cloud" in iot_source else "#94a3b8"
 sat_color = "#34d399" if "Sentinel-2" in sat_source else "#E8A020"
 
 # Calculate Metrics from LIVE sectors

@@ -1,0 +1,45 @@
+# Enhanced Hybrid Crop Monitoring System Requirements
+# Core Data Processing
+numpy>=1.21.0
+pandas>=1.3.0
+scipy>=1.7.0
+rasterio>=1.2.0
+glob2>=0.7
+earthengine-api>=0.1.300
+folium>=0.14.0
+streamlit-folium>=0.10.0
+
+# Machine Learning (Enhanced)
+scikit-learn>=1.0.0
+joblib>=1.1.0
+
+# Dashboard & Visualization
+streamlit>=1.25.0
+plotly>=5.0.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Automation & Scheduling
+schedule>=1.1.0
+psutil>=5.8.0
+
+# Data Analysis & Reporting
+json5>=0.9.0
+openpyxl>=3.0.0
+
+# Optional: Advanced ML (for future enhancements)
+# xgboost>=1.5.0
+# lightgbm>=3.3.0
+# prophet>=1.0.0
+
+# Optional: Time Series Forecasting (for future enhancements)
+# statsmodels>=0.13.0
+# pmdarima>=2.0.0
+
+# Optional: Advanced Visualization (for future enhancements)
+# folium>=0.12.0
+# dash>=2.0.0
+
+# Development & Testing
+pytest>=6.2.0
+jupyter>=1.0.0

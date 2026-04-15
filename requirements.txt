@@ -1,0 +1,16 @@
+streamlit
+pandas
+numpy
+plotly
+requests
+pymongo
+earthengine-api
+geemap
+google-generativeai
+Pillow
+torch
+torchvision
+tensorflow>=2.13.0
+twilio>=8.0.0
+paho-mqtt>=1.6.1
+python-dotenv

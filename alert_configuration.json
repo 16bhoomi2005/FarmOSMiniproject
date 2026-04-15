@@ -1,0 +1,124 @@
+{
+  "thresholds": {
+    "irrigation": {
+      "critical_ndvi_drop": 0.15,
+      "critical_soil_moisture": 35,
+      "warning_soil_moisture": 45,
+      "monitoring_soil_moisture": 55
+    },
+    "temperature": {
+      "critical_high": 38,
+      "warning_high": 35,
+      "critical_low": 5,
+      "warning_low": 10
+    },
+    "humidity": {
+      "critical_high": 85,
+      "warning_high": 80,
+      "critical_low": 25,
+      "warning_low": 30
+    },
+    "ndvi": {
+      "critical_drop": 0.2,
+      "warning_drop": 0.1,
+      "critical_level": 0.3,
+      "warning_level": 0.4
+    },
+    "soil_ph": {
+      "critical_low": 5.5,
+      "critical_high": 7.5,
+      "warning_low": 6.0,
+      "warning_high": 7.0
+    },
+    "soil_temperature": {
+      "critical_low": 10,
+      "critical_high": 30,
+      "warning_low": 15,
+      "warning_high": 25
+    }
+  },
+  "field_locations": {
+    "North": {
+      "coordinates": [
+        28.6139,
+        77.209
+      ],
+      "area_acres": 10,
+      "crop_type": "Wheat",
+      "soil_type": "Loamy"
+    },
+    "East": {
+      "coordinates": [
+        28.6239,
+        77.219
+      ],
+      "area_acres": 10,
+      "crop_type": "Wheat",
+      "soil_type": "Sandy"
+    },
+    "Center": {
+      "coordinates": [
+        28.6339,
+        77.229
+      ],
+      "area_acres": 10,
+      "crop_type": "Wheat",
+      "soil_type": "Clay"
+    },
+    "South": {
+      "coordinates": [
+        28.6439,
+        77.239
+      ],
+      "area_acres": 10,
+      "crop_type": "Wheat",
+      "soil_type": "Loamy"
+    },
+    "West": {
+      "coordinates": [
+        28.6539,
+        77.249
+      ],
+      "area_acres": 10,
+      "crop_type": "Wheat",
+      "soil_type": "Sandy"
+    },
+    "Northwest": {
+      "coordinates": [
+        28.6639,
+        77.259
+      ],
+      "area_acres": 10,
+      "crop_type": "Corn",
+      "soil_type": "Loamy"
+    },
+    "Northeast": {
+      "coordinates": [
+        28.6739,
+        77.269
+      ],
+      "area_acres": 10,
+      "crop_type": "Corn",
+      "soil_type": "Clay"
+    },
+    "Southwest": {
+      "coordinates": [
+        28.6839,
+        77.279
+      ],
+      "area_acres": 10,
+      "crop_type": "Corn",
+      "soil_type": "Sandy"
+    },
+    "Southeast": {
+      "coordinates": [
+        28.6939,
+        77.289
+      ],
+      "area_acres": 10,
+      "crop_type": "Corn",
+      "soil_type": "Loamy"
+    }
+  },
+  "last_updated": "2026-02-15T12:14:35.746878"
+}

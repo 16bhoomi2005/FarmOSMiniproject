@@ -1,0 +1,12 @@
+Temperature_mean
+Humidity_mean
+Soil_Moisture_mean
+NDVI_mean
+NDVI_max
+NDVI_min
+NDVI_std
+NDVI_slope
+NDVI_last_value
+NDVI_peak_value
+SAVI_mean
+NDRE_mean

@@ -161,7 +161,9 @@ if sectors:
         cols = st.columns(3)
         for j, (name, s_data) in enumerate(items[i:i+3]):
             with cols[j]:
-                score = s_data.get('ndvi', 0.6) * 100
+                raw_score = s_data.get('ndvi')
+                if raw_score is None: raw_score = 0.6
+                score = float(raw_score) * 100
                 c_light, tag_text, tag_bg, tag_color = get_field_ui_props(score)
                 # Override tag text with the actual live label from sector analysis if it's more descriptive
                 if s_data.get('label'):

@@ -17,17 +17,20 @@ load_dotenv()
 def bridge_secrets_to_env():
     """Bridges Streamlit Secrets to os.environ for universal accessibility."""
     try:
+        # Check both st.secrets and environment
         if hasattr(st, "secrets"):
             for key, value in st.secrets.items():
-                if key not in os.environ:
-                    os.environ[key] = str(value)
-            # Tag system as cloud-synced
-            st.session_state['secrets_verification'] = "Cloud Verified ✅"
+                os.environ[key] = str(value)
     except Exception:
         pass
 
-# Initialize secrets bridge immediately
+# ABSOLUTE FIRST PRIORITY: Initialize secrets bridge
 bridge_secrets_to_env()
+
+# Now proceed with imports that need credentials
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
+from sim_engine import get_sim_engine
 
 # Add project root to sys.path to ensure 'ai' module is importable
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,29 +39,36 @@ if current_dir not in sys.path:
 
 import ai.ai_engine as ai
 
-from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
-from sim_engine import get_sim_engine
-
 # ─────────────────────────────────────────────
 # PRODUCTION SETTINGS & CONNECTIVITY
 # ─────────────────────────────────────────────
 PRODUCTION_MODE = True 
 
 def get_mongo_client():
-    """Initializes a shared MongoDB client using the .env URI"""
+    """Initializes a shared MongoDB client using the verified credentials"""
+    # Ensure bridge is fresh
+    bridge_secrets_to_env()
     uri = os.environ.get('MONGO_URI')
-    if not uri:
+    if not uri or 'your' in uri.lower():
         return None
     try:
         client = MongoClient(uri, serverSelectionTimeoutMS=5000)
-        # Quick ping to verify connection
         client.admin.command('ping')
         return client
     except Exception:
         return None
 
-MONGO_CLIENT = get_mongo_client()
+# Placeholder for the global client
+MONGO_CLIENT_VAL = None
+
+def fetch_client():
+    global MONGO_CLIENT_VAL
+    if MONGO_CLIENT_VAL is None:
+        MONGO_CLIENT_VAL = get_mongo_client()
+    return MONGO_CLIENT_VAL
+
+# Global handle for all functions
+MONGO_CLIENT = fetch_client()
 
 # Spectral Band Mapping (Sentinel-2 / PRISMA equivalent)
 # This mapping allows the AI to pick the right band for Hyperspectral indices

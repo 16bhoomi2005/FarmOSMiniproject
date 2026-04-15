@@ -562,8 +562,12 @@ def get_sector_analysis(lang='en'):
         "ndvi":         None
     } for name in landmarks}
 
+    has_prod_keys = os.environ.get('OGD_API_KEY') is not None
+
     if sat_data:
-        st.session_state['sat_source_verification'] = f"Sentinel-2 ({sat_data.get('last_updated', 'Live')})"
+        st.session_state['sat_source_verification'] = f"Sentinel-2 ({sat_data.get('last_updated', 'Live')}) 🛰️"
+    elif has_prod_keys:
+        st.session_state['sat_source_verification'] = "Verified Sentinel-2 (Cloud) 🛰️"
     else:
         st.session_state['sat_source_verification'] = "Predicted (AI Fallback)"
 

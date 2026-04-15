@@ -40,25 +40,31 @@ try:
     from datetime import datetime, timedelta
     debug_log("✅ Standard Libs imported")
 
-    debug_log("Importing Earth Engine API...")
-    import ee
-    debug_log("✅ Earth Engine API imported")
+    debug_log("Importing Earth Engine API (optional)...")
+    try:
+        import ee
+        import gee_setup
+        import satellite_service
+        GEE_AVAILABLE = True
+        debug_log("✅ Earth Engine available")
+    except ImportError:
+        ee = None
+        gee_setup = None
+        satellite_service = None
+        GEE_AVAILABLE = False
+        debug_log("⚠️ Earth Engine not available (cloud mode)")
 
-    debug_log("Importing Folium...")
-    import folium
-    debug_log("✅ Folium imported")
-
-    debug_log("Importing GEE Setup...")
-    import gee_setup
-    debug_log("✅ GEE Setup imported")
-
-    debug_log("Importing Satellite Service...")
-    import satellite_service
-    debug_log("✅ Satellite Service imported")
-
-    debug_log("Importing Streamlit Folium...")
-    from streamlit_folium import st_folium
-    debug_log("✅ Streamlit Folium imported")
+    debug_log("Importing Folium (optional)...")
+    try:
+        import folium
+        from streamlit_folium import st_folium
+        FOLIUM_AVAILABLE = True
+        debug_log("✅ Folium available")
+    except ImportError:
+        folium = None
+        st_folium = None
+        FOLIUM_AVAILABLE = False
+        debug_log("⚠️ Folium not available (cloud mode)")
 
     # Apply Styles
     debug_log("Applying Styles...")

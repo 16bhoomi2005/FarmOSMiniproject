@@ -44,7 +44,8 @@ fields_good = 0
 fields_watch = 0
 for f in FIELD_NAMES:
     s_data = sectors.get(f, {})
-    ni = s_data.get('ndvi', 0.6)
+    ni = s_data.get('ndvi')
+    if ni is None: ni = 0.6
     if ni >= 0.7: fields_good += 1
     elif ni >= 0.4: fields_watch += 1
 total_f = len(FIELD_NAMES)
@@ -88,7 +89,9 @@ with col_left:
         row_cols = st.columns(3)
         for j, name in enumerate(FIELD_NAMES[i:i+3]):
             s_data = sectors.get(name, {})
-            score = s_data.get('ndvi', 0.6) * 100
+            raw_ni = s_data.get('ndvi')
+            if raw_ni is None: raw_ni = 0.6
+            score = raw_ni * 100
             is_good = score >= 70
             is_crit = score < 45
             
@@ -131,8 +134,9 @@ with col_left:
 with col_right:
     sel_name = st.session_state.selected_field
     sel_sector = sectors.get(sel_name, {})
-    sel_score = sel_sector.get('ndvi', 0.6) * 100
-    real_ndvi = sel_sector.get('ndvi', 0.6)
+    real_ndvi = sel_sector.get('ndvi')
+    if real_ndvi is None: real_ndvi = 0.6
+    sel_score = real_ndvi * 100
     
     # Get dynamic node data if available
     matched_node = next((n for n in nodes.values() if sel_name[:2] in n.get('location', '')), list(nodes.values())[0] if nodes else {})

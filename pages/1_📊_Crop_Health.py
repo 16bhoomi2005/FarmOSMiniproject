@@ -29,7 +29,10 @@ if sectors and len(sectors) > 0:
     # Scale NDVI 0-1 to 0-100 for "score" if needed, or use existing labels
     field_scores = []
     for s_data in sectors.values():
-        val = s_data.get('ndvi', 0.6) * 100
+        ndvi_val = s_data.get('ndvi')
+        if ndvi_val is None:
+            ndvi_val = 0.6
+        val = float(ndvi_val) * 100
         field_scores.append(val)
         
     avg_h = sum(field_scores) / len(field_scores)

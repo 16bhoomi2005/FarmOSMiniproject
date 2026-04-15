@@ -59,11 +59,14 @@ cc = st.columns(4)
 next_24h_rain = sum(f.get('rain_3h', 0) for f in forecast[:8])
 rain_str = f"{next_24h_rain:.1f} mm" if next_24h_rain > 0 else "No rain"
 
+ndvi_score = summary.get('ndvi')
+if ndvi_score is None: ndvi_score = 0.6
+
 c_items = [
     {"label": dl.translate("rain_24h", lang), "val": rain_str if not is_hi else (rain_str.replace("No rain", "बारिश नहीं")), "sub": ("अगले 24 घंटों में वर्षा" if is_hi else "Rainfall in next 24 hours"), "progress": min(next_24h_rain*10, 100), "icon": "🌧️"},
     {"label": dl.translate("temperature", lang), "val": f"{summary['temp']:.1f}°C", "sub": ("वर्तमान परिवेश रीडिंग" if is_hi else "Current ambient reading"), "progress": 70, "icon": "🌡️"},
     {"label": dl.translate("humidity", lang), "val": f"{summary['humidity']}%", "sub": ("वायुमंडलीय सापेक्ष आर्द्रता" if is_hi else "Relative atmospheric humidity"), "progress": summary['humidity'], "icon": "💧"},
-    {"label": dl.translate("crop_greenness", lang), "val": f"{summary['ndvi']:.2f}", "sub": ("सैटेलाइट से स्वास्थ्य डेटा" if is_hi else "Field health proxy from sat"), "progress": summary['ndvi']*100, "icon": "🌿"}
+    {"label": dl.translate("crop_greenness", lang), "val": f"{ndvi_score:.2f}", "sub": ("सैटेलाइट से स्वास्थ्य डेटा" if is_hi else "Field health proxy from sat"), "progress": ndvi_score*100, "icon": "🌿"}
 ]
 
 for i, item in enumerate(c_items):

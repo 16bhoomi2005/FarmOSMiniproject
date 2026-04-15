@@ -174,8 +174,9 @@ for i in range(0, len(fields), 3):
             if is_hi:
                  tag_text = "अभी सिंचाई करें" if is_crit else "निगरानी करें" if is_warn else "स्वस्थ"
 
-            real_ndvi = f.get('ndvi', 0.6)
-            ndwi = round(real_ndvi - 0.7, 2) # Rough approximation of NDWI using real NDVI if NDWI absent
+            real_ndvi = f.get('ndvi')
+            if real_ndvi is None: real_ndvi = 0.6
+            ndwi = round(real_ndvi - 0.7, 2)
             
             ndwi_col = red_c if ndwi < -0.1 else amber_c if ndwi < 0 else green_c
             

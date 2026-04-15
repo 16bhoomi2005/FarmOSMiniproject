@@ -74,8 +74,8 @@ k1, k2, k3, k4, k5 = st.columns(5)
 with k1:
     st.metric(
         label="AVG NDVI (CROP HEALTH)", 
-        value=f"{stats['avg_ndvi']:.2f}", 
-        delta=f"{stats['ndvi_delta']:+.2f} vs last month"
+        value=f"{stats.get('avg_ndvi', 0.6):.2f}", 
+        delta=f"{stats.get('ndvi_delta', 0):+.2f} vs last month"
     )
 
 with k2:
